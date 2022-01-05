@@ -1,4 +1,4 @@
-const { User, Course } = require('../models');
+const { User, Thought } = require('../models');
 
 // Aggregate function to get the number of Users overall
 const friendCount = async () =>
@@ -62,16 +62,16 @@ module.exports = {
       .then((User) =>
         !User
           ? res.status(404).json({ message: 'No such User exists' })
-          : Course.findOneAndUpdate(
+          : Thought.findOneAndUpdate(
               { Users: req.params.UserId },
               { $pull: { Users: req.params.UserId } },
               { new: true }
             )
       )
-      .then((course) =>
-        !course
+      .then((thought) =>
+        !thought
           ? res.status(404).json({
-              message: 'User deleted, but no courses found',
+              message: 'User deleted, but no thoughts found',
             })
           : res.json({ message: 'user successfully deleted' })
       )
@@ -82,7 +82,7 @@ module.exports = {
   },
 
   // Add an thought to a user
-  addthought(req, res) {
+  addThought(req, res) {
     console.log('You are adding an thought');
     console.log(req.body);
     User.findOneAndUpdate(
@@ -100,7 +100,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // Remove thought from a user
-  removethought(req, res) {
+  removeThought(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { thought: { thoughtId: req.params.thoughtId } } },
