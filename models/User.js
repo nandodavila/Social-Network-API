@@ -1,3 +1,4 @@
+const { type } = require('express/lib/response');
 const { Schema, model } = require('mongoose');
 const thoughtSchema = require('./Thought');
 
@@ -16,8 +17,18 @@ const userSchema = new Schema(
       unique: true,
       match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
-    thoughts: [thoughtSchema],
-    friends: [userSchema]
+    thoughts: [      
+            {
+              type: Schema.Types.ObjectId,
+              ref: 'thoughts',
+          }
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+    }
+  ]
   },
   {
     toJSON: {
