@@ -1,4 +1,12 @@
-const { Schema, Types, model } = require('mongoose');
+// const { type } = require('express/lib/response');
+const { Schema, Types, model, mongoose } = require('mongoose');
+
+const reactionSchema = new mongoose.Schema({
+  reactionID: {type: Schema.Types.ObjectId, default: () => new Types.ObjectId()},
+  reactionBody: {type: String, maxlength: 280, required: true},
+  username: {type: String, required: true},
+  createAt: {type: Date, default: Date.now,},
+})
 
 const thoughtSchema = new Schema(
   {
