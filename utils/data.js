@@ -6,6 +6,15 @@ const usernames = [
     'corndog'
 ];
 
+const emails = [
+    'nandoistrash@email.com',
+    'yodus@email.com',
+    'zchrist@email.com',
+    'jstnh@email.com',
+    'corndog@email.com'
+];
+
+
 const thoughts = [
     'This is my first thought ever',
     'Wow thoughts are cool!',
@@ -14,4 +23,4 @@ const thoughts = [
     'yeah dont be jealous'
 ]
 
-module.exports = { usernames, thoughts };
+module.exports = { usernames, emails, thoughts };
