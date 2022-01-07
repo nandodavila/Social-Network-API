@@ -37,12 +37,11 @@ module.exports = {
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       .select('-__v')
-      .then(async (User) =>
-        !User
+      .then(async (user) =>
+        !user
           ? res.status(404).json({ message: 'No User with that ID' })
           : res.json({
-              User,
-              grade: await grade(req.params.UserId),
+              user,
             })
       )
       .catch((err) => {
@@ -53,19 +52,17 @@ module.exports = {
   // create a new User
   createUser(req, res) {
     User.create(req.body)
-      .then((User) => res.json(User))
+      .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-  // Delete a User and remove them from the course
+  // Delete a User and removes there thoughts
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params.userId })
       .then((User) =>
         !User
           ? res.status(404).json({ message: 'No such User exists' })
-          : Thought.findOneAndUpdate(
-              { Users: req.params.UserId },
-              { $pull: { Users: req.params.UserId } },
-              { new: true }
+          : Thought.findOneAndRemove(
+              { usernames: req.params.userId },
             )
       )
       .then((thought) =>
