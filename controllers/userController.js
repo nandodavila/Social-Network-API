@@ -1,21 +1,9 @@
 const { User, Thought } = require('../models');
 
-// Aggregate function to get the number of Users overall
 const friendCount = async () =>
   User.aggregate()
     .count('friendCount')
     .then((numberOfFriends) => numberOfFriends);
-
-// // Aggregate function for getting the overall grade using $avg
-// const grade = async (UserId) =>
-//   User.aggregate([
-//     {
-//       $unwind: '$thoughts',
-//     },
-//     {
-//       $group: { _id: UserId, overallGrade: { $avg: '$thoughts.score' } },
-//     },
-//   ]);
 
 module.exports = {
   // Get all Users
