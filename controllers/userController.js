@@ -59,8 +59,8 @@ module.exports = {
   // Delete a User and removes there thoughts
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params.userId })
-      .then((User) =>
-        !User
+      .then((user) =>
+        !user
           ? res.status(404).json({ message: 'No such User exists' })
           : Thought.findOneAndRemove(
               { usernames: req.params.userId },
