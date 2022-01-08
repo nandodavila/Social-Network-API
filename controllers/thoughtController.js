@@ -21,11 +21,26 @@ module.exports = {
   // Create a Thought
   createThought(req, res) {
     Thought.create(req.body)
-      .then((Thought) => res.json(Thought))
+      .then((thought) => 
+        !thought
+          ? res.status(404).json({message: 'Couldnt make thought, just input})
+          : User.findOneAndUpdate(
+            {userId: req.body.userId},
+            {$push: {thoughts: thought.thoughtName}},
+            {runValidators: true, new: true },
+          )
+          .then((user) => 
+              !user
+                ?res.status(404).json({ message: 'No such user found'})
+                : res.json({message: 'thought made'})
+          )
+      )
+      .then((user) => res.json(user))
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
       });
+      
   },
   // Delete a Thought
   deleteThought(req, res) {
@@ -52,4 +67,43 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  
 };
+
+
+
+
+  // // Add an thought to a user
+  // addThought(req, res) {
+  //   console.log('You are adding an thought');
+  //   console.log(req.body);
+  //   User.findOneAndUpdate(
+  //     { _id: req.params.userId },
+  //     { $addToSet: { thoughts: req.body } },
+  //     { runValidators: true, new: true }
+  //   )
+  //     .then((user) =>
+  //       !user
+  //         ? res
+  //             .status(404)
+  //             .json({ message: 'No user found with that ID :(' })
+  //         : res.json(user)
+  //     )
+  //     .catch((err) => res.status(500).json(err));
+  // },
+  // // Remove thought from a user
+  // removeThought(req, res) {
+  //   User.findOneAndUpdate(
+  //     { _id: req.params.userId },
+  //     { $pull: { thought: { thoughtId: req.params.thoughtId } } },
+  //     { runValidators: true, new: true }
+  //   )
+  //     .then((user) =>
+  //       !user
+  //         ? res
+  //             .status(404)
+  //             .json({ message: 'No user found with that ID :(' })
+  //         : res.json(user)
+  //     )
+  //     .catch((err) => res.status(500).json(err));
+  // },
