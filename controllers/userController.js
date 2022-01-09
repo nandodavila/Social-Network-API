@@ -89,8 +89,7 @@ module.exports = {
   },
 
   addUserFriend(req, res) {
-    console.log('You are adding an thought');
-    console.log(req.body);
+    console.log('You are adding a friend');
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } },
@@ -107,8 +106,7 @@ module.exports = {
 },
 
 deleteUserFriend(req, res) {
-  console.log('You are adding an thought');
-  console.log(req.body);
+  console.log('You are removing a friend');
   User.findOneAndUpdate(
     { _id: req.params.userId },
     { $pull: { friends: req.params.friendId } },
